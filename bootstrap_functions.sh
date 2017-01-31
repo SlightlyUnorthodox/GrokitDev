@@ -44,21 +44,23 @@ function install_lemon() {
 
     log "${FUNCNAME[0]}: Downloading LEMON Graph Library"
     
-    # Create subdirectory for lemon installation
-    mkdir -p /vagrant/prereqs/lemon
-    cd /vagrant/prereqs/lemon
-    
     # Download LEMON graph library version 1.2.3 and unzip
+    cd /vagrant/prereqs
     wget "http://lemon.cs.elte.hu/pub/sources/lemon-1.2.3.tar.gz" -O "lemon.tar.gz"
     tar xvzf "lemon.tar.gz"
+
+    # Step into un-tarred lemon dir
+    cd /vagrant/prereqs/lemon-1.2.3
 
     log "${FUNCNAME[0]}: Running LEMON config and make process"
     
     # Run lemon configuration and install
-    ./lemon-1.2.3/configure
+    ./configure
+
+    # Run make and install
     make
-    make check
-    make install
+    #make check # Dependency bug in lemon 1.2.3
+    make install 
 
     log "${FUNCNAME[0]}: LEMON successfully installed"
     
@@ -86,7 +88,7 @@ function install_antlr() {
     #echo "export CLASSPATH=/vagrant/prereqs/antlr/antlr-3.4-complete.jar:$CLASSPATH" >> ~/.bashrc
 
     # Test antlr install
-    java org.antlr.Tool -version
+    #java org.antlr.Tool -version
 
     # Add antlr3 as alias
     #sh -c "echo 'java -jar /vagrant/prereqs/antlr/antlr-3.4-complete.jar' > /usr/local/bin/antlr3"
@@ -97,8 +99,14 @@ function install_antlr() {
     
     log "${FUNCNAME[0]}: Downloading ANTLR3 C Runtime from git arhives"
     
+    # Confirm position
+    cd /vagrant/prereqs/antlr
+    
     # Download antlr C runtime
     svn checkout https://github.com/antlr/antlr3/trunk/runtime/C
+
+    # Move into C runtime dir
+    cd /vagrant/prereqs/antlr/C
 
     # Install C runtime
     autoreconf --install
