@@ -25,7 +25,7 @@ function install_prereqs() {
         automake \
         libtool \
         libonig2 \
-        libarmadill04 \
+        libarmadillo4 \
         r-base \
         clang-3.4 \
         apache2 \
@@ -45,7 +45,7 @@ function install_lemon() {
     log "${FUNCNAME[0]}: Downloading LEMON Graph Library"
     
     # Create subdirectory for lemon installation
-    mkdir /vagrant/prereqs/lemon
+    mkdir -p /vagrant/prereqs/lemon
     cd /vagrant/prereqs/lemon
     
     # Download LEMON graph library version 1.2.3 and unzip
@@ -73,7 +73,7 @@ function install_antlr() {
     log "${FUNCNAME[0]}: Downloading ANTLR Version 3.4 from git archives"
     
     # Download and install ANTLR Parser Generator
-    mkdir /vagrant/prereqs/antlr
+    mkdir -p /vagrant/prereqs/antlr
     cd /vagrant/prereqs/antlr
     
     # Download ANTLR Parser Generator version 3.4
@@ -121,7 +121,7 @@ function confirm_pkg_config() {
     # Export pkg-config files to PATH
     
     # Make local pkgconfig directory
-    mkdir /vagrant/pkgconfig
+    mkdir -p /vagrant/pkgconfig
 
     # pkg-config for antlr3
     echo "prefix=/usr

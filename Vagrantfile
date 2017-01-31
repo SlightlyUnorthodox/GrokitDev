@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
   config.ssh.forward_agent = true
 
   # Disable synced folder (optional)
-  config.vm.synced_folder '.', '/vagrant', disabled: true
+  #config.vm.synced_folder '.', '/vagrant', disabled: true
 
   # Allow provisioning of bootstrap scripts
   config.vm.provision "shell" do |s|

@@ -14,8 +14,8 @@ apt-get update
 apt-get install -y git
 
 # Clone copies of the Grokit backend and base libraries
-git clone https://github.com/tera-insights/grokit.git
-git clone https://github.com/tera-insights/gtBase.git
+sh -c "if cd grokit; then git pull; else git clone https://github.com/tera-insights/grokit.git; fi"
+sh -c "if cd gtBase; then git pull; else git clone https://github.com/tera-insights/gtBase.git; fi"
 
 # Import helper functions
 . bootstrap_functions.sh
@@ -25,7 +25,7 @@ echo "RUNNING: 'install_prereqs'"
 install_prereqs
 
 # Make grokit prereqs directory and step inside
-mkdir prereqs
+mkdir -p prereqs
 cd prereqs
 
 # Install and configure grokit engine prereqs
