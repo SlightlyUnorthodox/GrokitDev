@@ -35,6 +35,9 @@ install_lemon
 echo "RUNNING: 'install_antlr'"
 install_antlr
 
+echo "RUNNING: 'install_onig'"
+install_onig
+
 echo "RUNNING: 'confirm_pkg_config'"
 confirm_pkg_config
 

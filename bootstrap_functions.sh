@@ -1,10 +1,12 @@
 #!/bin/bash
 
+# Define log messager function
 function log() {
     echo -n "MSG: "
     echo $*
 }
 
+# Install general Ubuntu-friendly prerequisites
 function install_prereqs() {
 
     log "Running ${FUNCNAME[0]}"
@@ -24,17 +26,19 @@ function install_prereqs() {
         autoconf \
         automake \
         libtool \
-        libonig2 \
         libarmadillo4 \
         r-base \
         clang-3.4 \
         apache2 \
         libapache2-mod-wsgi \
-        php5
+        php5 \
+        r-cran-rjson \
+        pkg-config
 
     # restart apache
     log "${FUNCNAME[0]}: Restarting apache server"
     service apache2 restart
+
 }
 
 # Download and install LEMON Graph Library
@@ -66,8 +70,10 @@ function install_lemon() {
     
     # Return to vagrant directory
     cd /vagrant
+
 }
 
+# Install ANTLR3 and ANLTR3 C Runtime from archives
 function install_antlr() {
 
     log "Running ${FUNCNAME[0]}"
@@ -101,7 +107,7 @@ function install_antlr() {
     
     # Confirm position
     cd /vagrant/prereqs/antlr
-    
+
     # Download antlr C runtime
     svn checkout https://github.com/antlr/antlr3/trunk/runtime/C
 
@@ -122,6 +128,40 @@ function install_antlr() {
 
 }
 
+# Build and install Onigurama from source
+function install_onig() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    # Step into prereqs directory
+
+    cd /vagrant/prereqs
+
+    log "${FUNCNAME[0]}: Downloading onigurama repository"
+
+    # Download oniguruma regex library
+    svn checkout https://github.com/LuaDist/onig/trunk
+    mv /vagrant/prereqs/trunk /vagrant/prereqs/onig
+
+    # Step inside onig directory
+    cd /vagrant/prereqs/onig
+
+    log "${FUNCNAME[0]}: Configuring and making Oniguruma"
+
+    # Configure and make
+    ./configure
+    make
+    make install
+    make atest
+
+    log "${FUNCNAME[0]}: Oniguruma installed successfully"
+
+    # Return to vagrant directory
+    cd /vagrant
+
+}
+
+# Define pkg-config files
 function confirm_pkg_config() {
     
     log "Running ${FUNCNAME[0]}"
@@ -133,48 +173,48 @@ function confirm_pkg_config() {
 
     # pkg-config for antlr3
     echo "prefix=/usr
-exec_prefix=${prefix}
-libdir=/usr/local/bin
-includedir=${prefix}/include
+exec_prefix=\${prefix}
+libdir=/usr/local/lib
+includedir=\${prefix}/include
 
 Name: Antlr 3 C Runtime
 Description: The C runtime for the Antlr parser generator
 Version: 3.4
-Cflags: -I${includedir}
-Libs: -L${libdir} -lantlr3c" > /vagrant/pkgconfig/antlr3c.pc
-    export PKG_CONFIG_PATH=/vagrant/grokit/pkgconfig/antlr3c.pc
-    
+Cflags: -I\${includedir}
+Libs: -L\${libdir} -lantlr3c" > /vagrant/pkgconfig/antlr3c.pc
+
     # pkg-config for armadillo
-    
     echo "prefix=/usr
-exec_prefix=${prefix}
+exec_prefix=\${prefix}
 libdir=/usr/lib
-includedir=${prefix}/include
+includedir=\${prefix}/include
 
 Name: Armadillo
 Description: A C++ Matrix and Linear Algebra library.
 Version: 1.4.2
-Cflags: -I${includedir}
-Libs: -L${libdir} -larmadillo" > /vagrant/pkgconfig/armadillo.pc
-    export PKG_CONFIG_PATH=/vagrant/pkgconfig/armadillo.pc
+Cflags: -I\${includedir}
+Libs: -L\${libdir} -larmadillo" > /vagrant/pkgconfig/armadillo.pc
 
     # pkg-config for onig
     echo "prefix=/usr
-exec_prefix=${prefix}
-libdir=/usr/lib
-includedir=${prefix}/include
+exec_prefix=\${prefix}
+libdir=/usr/local/lib
+includedir=\${prefix}/include
 
 Name: Oniguruma
 Description: A C regular expression library
 Version: 5.9.1
-Cflags: -I${includedir}
-Libs: -L${libdir} -lonig" > /vagrant/pkgconfig/onig.pc
-    export PKG_CONFIG_PATH=/vagrant/pkgconfig/onig.pc
+Cflags: -I\${includedir}
+Libs: -L\${libdir} -lonig" > /vagrant/pkgconfig/onig.pc
+
+    # Set pkg-config search path
+    export PKG_CONFIG_PATH=/vagrant/pkgconfig/
 
     log "${FUNCNAME[0]}: pkg-config files successfully added"
     
 }
 
+# Install grokit from repo src
 function install_grokit() {
     
     log "Running ${FUNCNAME[0]}"
@@ -191,6 +231,7 @@ function install_grokit() {
     cd /vagrant  
 }
 
+# Install gtbase R files
 function install_gtbase() {
 
     # Go to gtbase 
@@ -198,6 +239,7 @@ function install_gtbase() {
 
     # Install gtBase on grokit system
     R CMD INSTALL /vagrant/gtBase
+    
     log "${FUNCNAME[0]}: gtBase successfully installed"
     
 
