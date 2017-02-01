@@ -32,9 +32,15 @@ function install_prereqs() {
         apache2 \
         libapache2-mod-wsgi \
         php5 \
+        php-pear \
         r-cran-rjson \
         pkg-config
 
+    # Manage pear installations
+    pear upgrade
+    pear install XML_UTIL
+    pear install STRUCTURES_GRAPH
+    
     # restart apache
     log "${FUNCNAME[0]}: Restarting apache server"
     service apache2 restart
