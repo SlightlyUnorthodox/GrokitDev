@@ -12,12 +12,24 @@ function install_prereqs() {
     log "Running ${FUNCNAME[0]}"
 
     log "${FUNCNAME[0]}: Installing dependencies"
-    apt-get update
 
     # Add key for php 5.4
     yes | sudo add-apt-repository ppa:ondrej/php5-oldstable
     # sudo apt-get install -y python-software-properties
 
+    # Add websocketpp distribution to package list
+    sudo sh -c "if grep -q 'deb http://archive.ubuntu.com/ubuntu quantal main universe multiverse' /etc/apt/sources.list;
+then echo 'Package list already updated';
+else echo 'deb http://archive.ubuntu.com/ubuntu quantal main universe multiverse
+deb http://archive.ubuntu.com/ubuntu quantal-updates main universe multiverse
+deb http://security.ubuntu.com/ubuntu quantal-security main universe multiverse
+deb http://archive.canonical.com/ubuntu quantal partner' >> /etc/apt/sources.list; fi"
+
+    # Update package repository
+    apt-get update
+    apt-get upgrade
+
+    # Install prerequisites that can be found in package repository
     apt-get install -y \
         default-jdk \
         sqlite3 \
@@ -34,13 +46,23 @@ function install_prereqs() {
         php5 \
         php-pear \
         r-cran-rjson \
-        pkg-config
+        pkg-config \
+        libjsoncpp0 \
+        libjsoncpp-dev \
+        gcc \
+        g++ \
+        build-essential \
+        libssl-dev \
+        scons
+
+    # Modify php configuration to allow short_open_tag
+    echo "short_open_tag = On" > /etc/php5/cli/conf.d/30-short_open_tag.ini
 
     # Manage pear installations
     pear upgrade
-    pear install XML_UTIL
-    pear install STRUCTURES_GRAPH
-    
+    #pear install XML_UTIL
+    #pear install STRUCTURES_GRAPH
+
     # restart apache
     log "${FUNCNAME[0]}: Restarting apache server"
     service apache2 restart
@@ -164,6 +186,56 @@ function install_onig() {
 
     # Return to vagrant directory
     cd /vagrant
+
+}
+
+# Finish installation and configuration of websocketpp and pre-reqs
+function install_websocketpp() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    # Step into prereqs directory
+
+    cd /vagrant/prereqs
+
+    log "${FUNCNAME[0]}: Downloading boost 1.53.0 library"
+
+    # Download boost and unzip
+    wget http://sourceforge.net/projects/boost/files/boost/1.53.0/boost_1_53_0.tar.bz2/download -O boost_1_53_0.tar.bz2
+    tar xvfj boost_1_53_0.tar.bz2 
+
+    # Step into boost directory
+    cd /vagrant/prereqs/boost_1_53_0
+
+    log "${FUNCNAME[0]}: Installing boost 1.53.0 library"
+
+    # Install boost
+    ./bootstrap.sh --exec-prefix=/usr/local
+    ./b2
+    ./b2 install
+
+    log "${FUNCNAME[0]}: Linking boost 1.53.0 library"
+
+    # Link to libraries
+    export LD_LIBRARY_PATH=/usr/local/lib
+    export BOOST_ROOT=~/boost_1_53_0
+
+    # Step back into prereqs
+    cd /vagrant/prereqs
+
+    log "${FUNCNAME[0]}: Downloading websocketpp library"
+
+    # Get websocketpp library and unzip
+    wget https://github.com/zaphoyd/websocketpp/archive/master.zip -O websocketpp.zip
+    unzip websocketpp.zip
+
+    # Copying websocketpp to /usr/include
+    cp -r /vagrant/prereqs/websocketpp-master/websocketpp /usr/include/
+    
+    # Return to vagrant home
+    cd /vagrant
+
+    log "${FUNCNAME[0]}: websocketpp successfully installed"
 
 }
 
