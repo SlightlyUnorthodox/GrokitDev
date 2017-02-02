@@ -1,18 +1,18 @@
 # Grokit Dev
 
-This repository contains a comprehensive set of tools for getting started developing and testing with Grokit database engine.
+This repository contains a comprehensive installation procedure for installing and configuring the Grokit database engine.
 
-## Contributors:
-
-* Dax Gerts
+Be warned that the number of required libraries, and the fact that this process is designed to work on a virtual machine, mean this process will likely take a good amount of time to run.
 
 ## GrokitDev Box Overview
 
-The following process will allow you to easily setup and run Ipython Notebooks in your browser without having to make a lot of permanent changes to your computer. This is accomplished by creating a "virtual machine" which runs on its own partioned section of your computer. The use of Vagrant allows this machine to be created from prepared files found in this repository and with a minimum of individual effort. Additionaly, a vagrant machine can be stopped, destroyed, and recreated at any given time.
+The following process will allow you to easily setup and run Grokit queries from the guest virtual machine.
+
+The use of Vagrant allows this machine to be created from prepared files found in this repository and with a minimum of individual effort. Additionaly, a vagrant machine can be stopped, destroyed, and recreated at any given time.
 
 ## Installation and Setup
 
-This process will take a few minutes and requires a good internet connection.
+This process will take a non-trivial amount of time and requires a stable internet connection. The following steps should provide relatively complete instructions, but please raise an issue if there is an obvious gap.
 
 ### 1. Install VirtualBox
 
@@ -34,14 +34,13 @@ Use git to download the 'GrokitDev' Repository: (preferred)
  
 Use ```git clone https://github.com/SlightlyUnorthodox/GrokitDev.git``` to create a local copy of the repository
 
-
 ### 4. Run Vagrant setup
 
-This process will likely take several minutes when run for the first time, but will be significantly faster if ever needed again. Feel free to grab a cup of coffee while this completes.
+Again, this process will likely take a **non-trivial amount of time** when run for the first time, but will be significantly faster if ever needed again. Feel free to grab a cup of coffee (and maybe take a long lunch) while this process runs.
 
 What your computer is doing here:
  * Creating a virtual machine in your computer
- * Downloading and installing Ubuntu
+ * Downloading and installing Ubuntu (trusty 64-bit)
  * Installing Git, Python, NLTK, and Grokit
  * Starting the Grokit server and forwarding that to the host machine at '127.0.0.1:8000'
 
