@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
   
   # Specify vagrant box
-  config.vm.box = "ubuntu/trusty32"
+  config.vm.box = "ubuntu/trusty64"
 
   # Configure local network settings
   config.vm.hostname = "grokit.dev"
@@ -12,25 +12,28 @@ Vagrant.configure(2) do |config|
   # Set machine alias
   config.hostsupdater.aliases = ["grokit.dev"]
 
-  # Specify host network address ## !! Change this to work for your machine !! ##
-  config.vm.network "private_network", ip: "192.168.33.1"
- 
   # Specify forward ports as needed
   #config.vm.network "forwarded_port", guest: 8000, host: 8080
   config.vm.network "forwarded_port", guest: 22, host: 22
   
-  # Prevent password requests during setup
-  #vagrant ALL=(ALL) NOPASSWD: ALL
+  # Configure allocated vm resources
+  ## !! Change this to work for your machine !! ##
+  config.vm.provider "virtualbox" do |v|
+    # Specify CPU usage cap for vm
+    v.customize ["modifyvm", :id, "--cpuexecutioncap", "70"]
+    
+    # Specify RAM allocated
+    v.memory = 8192
 
-  # Allow for Vagrant to forward ssh keys from host
-  config.ssh.forward_agent = true
-
-  # Disable synced folder (optional)
-  #config.vm.synced_folder '.', '/vagrant', disabled: true
+    # Specify CPUs allocated
+    v.cpus = 2
+  end
 
   # Allow provisioning of bootstrap scripts
   config.vm.provision "shell" do |s|
     s.path = "bootstrap.sh"
   end
+
+
 
 end
