@@ -18,16 +18,14 @@ function install_prereqs() {
     # sudo apt-get install -y python-software-properties
 
     # Add websocketpp distribution to package list
-    sudo sh -c "if grep -q 'deb http://archive.ubuntu.com/ubuntu quantal main universe multiverse' /etc/apt/sources.list;
-then echo 'Package list already updated';
-else echo 'deb http://archive.ubuntu.com/ubuntu quantal main universe multiverse
-deb http://archive.ubuntu.com/ubuntu quantal-updates main universe multiverse
-deb http://security.ubuntu.com/ubuntu quantal-security main universe multiverse
-deb http://archive.canonical.com/ubuntu quantal partner' >> /etc/apt/sources.list; fi"
+    sudo sh -c "echo 'deb http://archive.ubuntu.com/ubuntu trusty main universe multiverse
+deb http://archive.ubuntu.com/ubuntu trusty-updates main universe multiverse
+deb http://security.ubuntu.com/ubuntu trusty-security main universe multiverse
+deb http://archive.canonical.com/ubuntu trusty partner' > /etc/apt/sources.list.d/trusty.new.list"
 
     # Update package repository
-    apt-get update
-    apt-get upgrade
+    apt-get update -y
+    apt-get upgrade -y
 
     # Install prerequisites that can be found in package repository
     apt-get install -y \
@@ -78,7 +76,7 @@ function install_lemon() {
     
     # Download LEMON graph library version 1.2.3 and unzip
     cd /vagrant/prereqs
-    wget "http://lemon.cs.elte.hu/pub/sources/lemon-1.2.3.tar.gz" -O "lemon.tar.gz"
+    wget -q "http://lemon.cs.elte.hu/pub/sources/lemon-1.2.3.tar.gz" -O "lemon.tar.gz"
     tar xvzf "lemon.tar.gz"
 
     # Step into un-tarred lemon dir
@@ -113,7 +111,7 @@ function install_antlr() {
     cd /vagrant/prereqs/antlr
     
     # Download ANTLR Parser Generator version 3.4
-    wget "https://github.com/antlr/website-antlr3/raw/gh-pages/download/antlr-3.4-complete.jar"
+    wget -q "https://github.com/antlr/website-antlr3/raw/gh-pages/download/antlr-3.4-complete.jar"
 
     # Add ANTLR to CLASSPATH and run it
     export CLASSPATH=/vagrant/prereqs/antlr/antlr-3.4-complete.jar:$CLASSPATH
@@ -137,7 +135,7 @@ function install_antlr() {
     cd /vagrant/prereqs/antlr
 
     # Download antlr C runtime
-    svn checkout https://github.com/antlr/antlr3/trunk/runtime/C
+    svn checkout --force https://github.com/antlr/antlr3/trunk/runtime/C
 
     # Move into C runtime dir
     cd /vagrant/prereqs/antlr/C
@@ -145,10 +143,13 @@ function install_antlr() {
     # Install C runtime
     autoreconf --install
     autoconf
-    ./configure
+    ./configure --enable-64bit
     make
     make check
 
+    # Copy C runtime library to /usr/include
+    cp /vagrant/prereqs/antlr/C/include/* /usr/include/
+    
     log "${FUNCNAME[0]}: ANTLR3 C Runtime successfully installed"
     
     # Return to vagrant directory
@@ -166,6 +167,9 @@ function install_onig() {
     cd /vagrant/prereqs
 
     log "${FUNCNAME[0]}: Downloading onigurama repository"
+
+    # Remove onig if exists
+    [ -e /vagrant/prereqs/onig ] && rm -r /vagrant/prereqs/onig
 
     # Download oniguruma regex library
     svn checkout https://github.com/LuaDist/onig/trunk
@@ -201,7 +205,7 @@ function install_websocketpp() {
     log "${FUNCNAME[0]}: Downloading boost 1.53.0 library"
 
     # Download boost and unzip
-    wget http://sourceforge.net/projects/boost/files/boost/1.53.0/boost_1_53_0.tar.bz2/download -O boost_1_53_0.tar.bz2
+    wget -q http://sourceforge.net/projects/boost/files/boost/1.53.0/boost_1_53_0.tar.bz2/download -O boost_1_53_0.tar.bz2
     tar xvfj boost_1_53_0.tar.bz2 
 
     # Step into boost directory
@@ -226,7 +230,7 @@ function install_websocketpp() {
     log "${FUNCNAME[0]}: Downloading websocketpp library"
 
     # Get websocketpp library and unzip
-    wget https://github.com/zaphoyd/websocketpp/archive/master.zip -O websocketpp.zip
+    wget -q https://github.com/zaphoyd/websocketpp/archive/master.zip -O websocketpp.zip
     unzip websocketpp.zip
 
     # Copying websocketpp to /usr/include
