@@ -38,6 +38,9 @@ install_antlr
 echo "RUNNING: 'install_onig'"
 install_onig
 
+echo "RUNNING: 'install_websocketpp"
+install_websocketpp
+
 echo "RUNNING: 'confirm_pkg_config'"
 confirm_pkg_config
 
