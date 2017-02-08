@@ -201,28 +201,23 @@ function install_astyle() {
     cd /vagrant
 }   
 
-    # Install boost
-    ./bootstrap.sh --exec-prefix=/usr/local
-    ./b2
-    ./b2 install
+# Finish installation and configuration of websocketpp and pre-reqs
+function install_websocketpp() {
 
-    log "${FUNCNAME[0]}: Linking boost 1.53.0 library"
+    log "Running ${FUNCNAME[0]}"
 
-    # Link to libraries
-    export LD_LIBRARY_PATH=/usr/local/lib
-    export BOOST_ROOT=~/boost_1_53_0
+    # Step into prereqs directory
 
-    # Step back into prereqs
     cd /vagrant/prereqs
 
     log "${FUNCNAME[0]}: Downloading websocketpp library"
 
     # Get websocketpp library and unzip
-    wget -q https://github.com/zaphoyd/websocketpp/archive/master.zip -O websocketpp.zip
-    unzip websocketpp.zip
+    wget -q https://github.com/zaphoyd/websocketpp/archive/experimental.zip -O websocketpp.zip
+    unzip -o websocketpp.zip
 
     # Copying websocketpp to /usr/include
-    cp -r /vagrant/prereqs/websocketpp-master/websocketpp /usr/include/
+    cp -r /vagrant/prereqs/websocketpp-experimental/websocketpp /usr/include/
     
     # Return to vagrant home
     cd /vagrant
@@ -242,7 +237,7 @@ function confirm_pkg_config() {
     mkdir -p /vagrant/pkgconfig
 
     # pkg-config for antlr3
-    echo "prefix=/usr
+    echo "prefix=/usr/local
 exec_prefix=\${prefix}
 libdir=/usr/local/lib
 includedir=\${prefix}/include
@@ -256,24 +251,24 @@ Libs: -L\${libdir} -lantlr3c" > /vagrant/pkgconfig/antlr3c.pc
     # pkg-config for armadillo
     echo "prefix=/usr
 exec_prefix=\${prefix}
-libdir=/usr/lib
+libdir=/usr/lib64
 includedir=\${prefix}/include
 
 Name: Armadillo
 Description: A C++ Matrix and Linear Algebra library.
-Version: 1.4.2
+Version: 4.3.2
 Cflags: -I\${includedir}
 Libs: -L\${libdir} -larmadillo" > /vagrant/pkgconfig/armadillo.pc
 
     # pkg-config for onig
     echo "prefix=/usr
 exec_prefix=\${prefix}
-libdir=/usr/local/lib
+libdir=/usr/lib64
 includedir=\${prefix}/include
 
 Name: Oniguruma
 Description: A C regular expression library
-Version: 5.9.1
+Version: 5.9.5
 Cflags: -I\${includedir}
 Libs: -L\${libdir} -lonig" > /vagrant/pkgconfig/onig.pc
 
@@ -295,14 +290,50 @@ function install_grokit() {
     # Compile datapath
     ./compile.datapath.sh
 
-    log "${FUNCNAME[0]}: Grokit datapath successfully installed"
+    log "${FUNCNAME[0]}: Grokit datapath successfully setup"
     
+#     # Configure disk
+#     cd /vagrant/grokit/src/Tool_DataPath/executable
+#     touch /vagrant/grokit/disk
+
+#     sh -c "./dp -be QUAN << EOF
+# 0
+# 1
+# 1
+# EOF"
+    
+    # Install grokit
+    PREFIX=/usr make install
+
+    # Install grokit 'base' library
+    grokit makelib /vagrant/grokit/Libs/base
+
     # Return to home
     cd /vagrant  
 }
 
+# Install grokit statistic library
+function install_statistics() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    log "${FUNCNAME[0]}: Installing Grokit 'Statistics' library"
+
+    grokit makelib statistics
+
+    log "${FUNCNAME[0]}: 'Statistics' library successfully installed"
+
+}
+
 # Install gtbase R files
-function install_gtbase() {
+function install_R_base() {
+
+    # Install R-dependencies
+    Rscript -e "install.packages('rjson', repos='http://cran.us.r-project.org')"
+    Rscript -e "install.packages('RSQLite', repos = 'http://cran.us.r-project.org')"
+    
+    # Build RJson
+    #Rscript build_json.R
 
     # Go to gtbase 
     log "Running ${FUNCNAME[0]}"
