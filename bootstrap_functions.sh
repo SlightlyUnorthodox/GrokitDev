@@ -13,48 +13,35 @@ function install_prereqs() {
 
     log "${FUNCNAME[0]}: Installing dependencies"
 
-    # Add key for php 5.4
-    yes | sudo add-apt-repository ppa:ondrej/php5-oldstable
-    # sudo apt-get install -y python-software-properties
+    # Mass installation of prerequisite tools and libraries
+    dnf -y -v groupinstall "C Development Tools and Libraries"
+    dnf -y -v install bc wget clang git java \
+        php-cli php-pdo php-pecl-xdebug php-pear \
+        jsoncpp jsoncpp-devel \
+        sqlite sqlite-devel \
+        openssl openssl-devel \
+        oniguruma oniguruma-devel \
+        boost boost-devel boost-system \
+        R \
+        armadillo-devel \
+        emacs htop \
+        glibc.i686 \
+        libstdc++.so.6
 
-    # Add websocketpp distribution to package list
-    sudo sh -c "echo 'deb http://archive.ubuntu.com/ubuntu trusty main universe multiverse
-deb http://archive.ubuntu.com/ubuntu trusty-updates main universe multiverse
-deb http://security.ubuntu.com/ubuntu trusty-security main universe multiverse
-deb http://archive.canonical.com/ubuntu trusty partner' > /etc/apt/sources.list.d/trusty.new.list"
+    #rpm -ivh astyle
 
-    # Update package repository
-    apt-get update -y
-    apt-get upgrade -y
-
-    # Install prerequisites that can be found in package repository
-    apt-get install -y \
-        default-jdk \
-        sqlite3 \
-        libsqlite3-dev \
-        subversion \
-        autoconf \
+    # Install remaining pre-reqs through yum
+    yum install -y autoconf \
         automake \
         libtool \
-        libarmadillo4 \
-        r-base \
-        clang-3.4 \
-        apache2 \
-        libapache2-mod-wsgi \
-        php5 \
-        php-pear \
-        r-cran-rjson \
-        pkg-config \
-        libjsoncpp0 \
-        libjsoncpp-dev \
-        gcc \
-        g++ \
-        build-essential \
-        libssl-dev \
-        scons
+        glibc.i686 \
+        ncurses-libs.i686 \
+        bison \
+        flex \
+        glibc.devel.i686
 
     # Modify php configuration to allow short_open_tag
-    echo "short_open_tag = On" > /etc/php5/cli/conf.d/30-short_open_tag.ini
+    echo "short_open_tag = On" > /etc/php.d/30-short_open_tag.ini
 
     # Manage pear installations
     pear upgrade
