@@ -172,25 +172,34 @@ function install_onig() {
 
 }
 
-# Finish installation and configuration of websocketpp and pre-reqs
-function install_websocketpp() {
-
+# Build and install Astyle from source
+function install_astyle() {
+    
     log "Running ${FUNCNAME[0]}"
 
-    # Step into prereqs directory
+    log "${FUNCNAME[0]}: Downloading Astyle from "
+    
+    # Download and install ANTLR Parser Generator
+    mkdir -p /vagrant/prereqs/astyle
+    cd /vagrant/prereqs/astyle
+    
+    # Download ANTLR Parser Generator version 3.4
+    wget -q https://sourceforge.net/projects/astyle/files/astyle/astyle%202.06/astyle_2.06_linux.tar.gz/download -O astyle.tar.gz
+    tar xvzf astyle.tar.gz
 
-    cd /vagrant/prereqs
+    # Make astyle for gcc
+    cd /vagrant/prereqs/astyle/astyle/build/gcc
+    make release shared static
 
-    log "${FUNCNAME[0]}: Downloading boost 1.53.0 library"
+    # Make astyle for clang
+    cd /vagrant/prereqs/astyle/astyle/build/clang
+    make release shared static
 
-    # Download boost and unzip
-    wget -q http://sourceforge.net/projects/boost/files/boost/1.53.0/boost_1_53_0.tar.bz2/download -O boost_1_53_0.tar.bz2
-    tar xvfj boost_1_53_0.tar.bz2 
-
-    # Step into boost directory
-    cd /vagrant/prereqs/boost_1_53_0
-
-    log "${FUNCNAME[0]}: Installing boost 1.53.0 library"
+    log "${FUNCNAME[0]}: Astyle successfully installed"
+        
+    # Go back to working directory
+    cd /vagrant
+}   
 
     # Install boost
     ./bootstrap.sh --exec-prefix=/usr/local
