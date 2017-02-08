@@ -43,15 +43,6 @@ function install_prereqs() {
     # Modify php configuration to allow short_open_tag
     echo "short_open_tag = On" > /etc/php.d/30-short_open_tag.ini
 
-    # Manage pear installations
-    pear upgrade
-    #pear install XML_UTIL
-    #pear install STRUCTURES_GRAPH
-
-    # restart apache
-    log "${FUNCNAME[0]}: Restarting apache server"
-    service apache2 restart
-
 }
 
 # Download and install LEMON Graph Library
@@ -109,10 +100,13 @@ function install_antlr() {
     # Test antlr install
     #java org.antlr.Tool -version
 
-    # Add antlr3 as alias
+    # Add antlr3 as command to usr and sudo path
     #sh -c "echo 'java -jar /vagrant/prereqs/antlr/antlr-3.4-complete.jar' > /usr/local/bin/antlr3"
-    sh -c "echo 'java -cp /vagrant/prereqs/antlr/antlr-3.4-complete.jar org.antlr.Tool \$1 \$2' > /usr/local/bin/antlr3"
+    sh -c "echo 'java -cp /vagrant/prereqs/antlr/antlr-3.4-complete.jar org.antlr.Tool \$*' > /usr/local/bin/antlr3"
     chmod a+x /usr/local/bin/antlr3
+
+    sh -c "echo 'java -cp /vagrant/prereqs/antlr/antlr-3.4-complete.jar org.antlr.Tool \$*' > /usr/sbin/antlr3"
+    chmod a+x /usr/sbin/antlr3
 
     log "${FUNCNAME[0]}: ANTLR3 successfully installed"
     
