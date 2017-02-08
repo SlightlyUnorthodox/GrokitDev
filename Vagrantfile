@@ -3,19 +3,25 @@
 
 Vagrant.configure(2) do |config|
   
-  # Specify vagrant box
-  config.vm.box = "ubuntu/trusty64"
-
+  # Specify vagrant box and source url 
+  config.vm.box = "centos/7"
+ 
   # Configure local network settings
   config.vm.hostname = "grokit.dev"
-  
+  config.vm.network "private_network", type: :dhcp
+
   # Set machine alias
   config.hostsupdater.aliases = ["grokit.dev"]
 
-  # Specify forward ports as needed
-  #config.vm.network "forwarded_port", guest: 8000, host: 8080
-  config.vm.network "forwarded_port", guest: 22, host: 22
+  # Configure shared vagrant folder
+  config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+
+  # Set ssh forwarding off
+  config.ssh.insert_key = false
   
+  # Allow internal symlinks
+  #config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+
   # Configure allocated vm resources
   ## !! Change this to work for your machine !! ##
   config.vm.provider "virtualbox" do |v|
