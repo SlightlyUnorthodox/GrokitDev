@@ -126,11 +126,9 @@ function install_antlr() {
     autoconf
     ./configure --enable-64bit
     make
+    make install
     make check
 
-    # Copy C runtime library to /usr/include
-    cp /vagrant/prereqs/antlr/C/include/* /usr/include/
-    
     log "${FUNCNAME[0]}: ANTLR3 C Runtime successfully installed"
     
     # Return to vagrant directory
