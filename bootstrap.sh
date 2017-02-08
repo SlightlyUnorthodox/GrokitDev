@@ -9,13 +9,21 @@ set -e
 # Change to working directory
 cd /vagrant
 
-# Check git installation
-apt-get update
-apt-get install -y git
+# Update yum packages
+yum -y update
 
-# Clone copies of the Grokit backend and base libraries
-sh -c "if cd grokit; then git pull; else git clone https://github.com/tera-insights/grokit.git; fi"
-sh -c "if cd gtBase; then git pull; else git clone https://github.com/tera-insights/gtBase.git; fi"
+# Install dnf
+yum install -y epel-release
+yum install -y dnf
+
+# Check git installation
+yum install -y git svn
+
+# Install
+# Clone copies of the Grokit backend, R base, and Statistics libraries
+sh -c "if cd grokit; then echo 'grokit already exists'; else git clone https://github.com/tera-insights/grokit.git; fi"
+sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone https://github.com/tera-insights/gtBase.git; fi"
+sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/statistics.git; fi"
 
 # Import helper functions
 . bootstrap_functions.sh
@@ -24,20 +32,19 @@ sh -c "if cd gtBase; then git pull; else git clone https://github.com/tera-insig
 echo "RUNNING: 'install_prereqs'"
 install_prereqs
 
-# Make grokit prereqs directory and step inside
-mkdir -p prereqs
-cd prereqs
-
-# Install and configure grokit engine prereqs
+# Run LEMON installation
 echo "RUNNING: 'install_lemon'"
 install_lemon
 
-echo "RUNNING: 'install_antlr'"
+# Run ANTLR installation
+echo "RUNNING: 'install_antlr"
 install_antlr
 
-echo "RUNNING: 'install_onig'"
-install_onig
+# Run Astyle installation
+echo "RUNNING: 'install_astyle"
+install_astyle
 
+# Run Websocketpp installation
 echo "RUNNING: 'install_websocketpp"
 install_websocketpp
 
@@ -48,8 +55,12 @@ confirm_pkg_config
 echo "RUNNING: 'install_grokit'"
 install_grokit
 
+# Run Statistics library installation
+echo "Running: 'install_statistics'"
+install_statistics
+
 # Run Grokit base, 'gtBase' installation
-echo "RUNNING: 'install_gtbase'"
-install_gtbase
+echo "RUNNING: 'install_R_base'"
+install_R_base
 
 echo "MESSAGE: Grokit Development Server Provisioned Successfully"
