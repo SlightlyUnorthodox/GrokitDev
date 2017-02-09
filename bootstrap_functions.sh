@@ -16,29 +16,29 @@ function install_prereqs() {
     # Mass installation of prerequisite tools and libraries
     dnf -y -v groupinstall "C Development Tools and Libraries"
     dnf -y -v install bc wget clang git java \
-        php-cli php-pdo php-pecl-xdebug php-pear \
-        jsoncpp jsoncpp-devel \
-        sqlite sqlite-devel \
-        openssl openssl-devel \
-        oniguruma oniguruma-devel \
-        boost boost-devel boost-system \
-        R \
-        armadillo-devel \
-        emacs htop \
-        glibc.i686 \
-        libstdc++.so.6
+    php-cli php-pdo php-pecl-xdebug php-pear \
+    jsoncpp jsoncpp-devel \
+    sqlite sqlite-devel \
+    openssl openssl-devel \
+    oniguruma oniguruma-devel \
+    boost boost-devel boost-system \
+    R \
+    armadillo-devel \
+    emacs htop \
+    glibc.i686 \
+    libstdc++.so.6
 
     #rpm -ivh astyle
 
     # Install remaining pre-reqs through yum
     yum install -y autoconf \
-        automake \
-        libtool \
-        glibc.i686 \
-        ncurses-libs.i686 \
-        bison \
-        flex \
-        glibc.devel.i686
+    automake \
+    libtool \
+    glibc.i686 \
+    ncurses-libs.i686 \
+    bison \
+    flex \
+    glibc.devel.i686
 
     # Modify php configuration to allow short_open_tag
     echo "short_open_tag = On" > /etc/php.d/30-short_open_tag.ini
@@ -196,7 +196,7 @@ function install_astyle() {
     make release shared static
 
     log "${FUNCNAME[0]}: Astyle successfully installed"
-        
+    
     # Go back to working directory
     cd /vagrant
 }   
@@ -238,39 +238,39 @@ function confirm_pkg_config() {
 
     # pkg-config for antlr3
     echo "prefix=/usr/local
-exec_prefix=\${prefix}
-libdir=/usr/local/lib
-includedir=\${prefix}/include
+    exec_prefix=\${prefix}
+    libdir=/usr/local/lib
+    includedir=\${prefix}/include
 
-Name: Antlr 3 C Runtime
-Description: The C runtime for the Antlr parser generator
-Version: 3.4
-Cflags: -I\${includedir}
-Libs: -L\${libdir} -lantlr3c" > /vagrant/pkgconfig/antlr3c.pc
+    Name: Antlr 3 C Runtime
+    Description: The C runtime for the Antlr parser generator
+    Version: 3.4
+    Cflags: -I\${includedir}
+    Libs: -L\${libdir} -lantlr3c" > /vagrant/pkgconfig/antlr3c.pc
 
     # pkg-config for armadillo
     echo "prefix=/usr
-exec_prefix=\${prefix}
-libdir=/usr/lib64
-includedir=\${prefix}/include
+    exec_prefix=\${prefix}
+    libdir=/usr/lib64
+    includedir=\${prefix}/include
 
-Name: Armadillo
-Description: A C++ Matrix and Linear Algebra library.
-Version: 4.3.2
-Cflags: -I\${includedir}
-Libs: -L\${libdir} -larmadillo" > /vagrant/pkgconfig/armadillo.pc
+    Name: Armadillo
+    Description: A C++ Matrix and Linear Algebra library.
+    Version: 4.3.2
+    Cflags: -I\${includedir}
+    Libs: -L\${libdir} -larmadillo" > /vagrant/pkgconfig/armadillo.pc
 
     # pkg-config for onig
     echo "prefix=/usr
-exec_prefix=\${prefix}
-libdir=/usr/lib64
-includedir=\${prefix}/include
+    exec_prefix=\${prefix}
+    libdir=/usr/lib64
+    includedir=\${prefix}/include
 
-Name: Oniguruma
-Description: A C regular expression library
-Version: 5.9.5
-Cflags: -I\${includedir}
-Libs: -L\${libdir} -lonig" > /vagrant/pkgconfig/onig.pc
+    Name: Oniguruma
+    Description: A C regular expression library
+    Version: 5.9.5
+    Cflags: -I\${includedir}
+    Libs: -L\${libdir} -lonig" > /vagrant/pkgconfig/onig.pc
 
     # Set pkg-config search path
     export PKG_CONFIG_PATH=/vagrant/pkgconfig/
@@ -301,7 +301,7 @@ function install_grokit() {
 # 1
 # 1
 # EOF"
-    
+
     # Install grokit
     PREFIX=/usr make install
 

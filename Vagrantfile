@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
  
   # Configure local network settings
   config.vm.hostname = "grokit.dev"
-  config.vm.network "private_network", type: :dhcp
+  #config.vm.network "private_network", type: :dhcp
 
   # Set machine alias
   config.hostsupdater.aliases = ["grokit.dev"]

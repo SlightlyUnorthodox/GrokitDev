@@ -25,6 +25,9 @@ sh -c "if cd grokit; then echo 'grokit already exists'; else git clone https://g
 sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone https://github.com/tera-insights/gtBase.git; fi"
 sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/statistics.git; fi"
 
+# Make grokit prereqs directory and step inside
+mkdir -p prereqs
+
 # Import helper functions
 . bootstrap_functions.sh
 
