@@ -6,8 +6,11 @@ export DEBIAN_FRONTEND=noninteractive
 # Exit on first error
 set -e
 
+# Import helper functions
+cd /vagrant && . bootstrap_functions.sh
+
 # Change to working directory
-cd /vagrant
+cd /home/vagrant
 
 # Update yum packages
 yum -y update
@@ -24,12 +27,10 @@ yum install -y git svn
 sh -c "if cd grokit; then echo 'grokit already exists'; else git clone https://github.com/tera-insights/grokit.git; fi"
 sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone https://github.com/tera-insights/gtBase.git; fi"
 sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/statistics.git; fi"
+sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/gtLearning.git; fi"
 
 # Make grokit prereqs directory and step inside
 mkdir -p prereqs
-
-# Import helper functions
-. bootstrap_functions.sh
 
 # Run installation procedures
 echo "RUNNING: 'install_prereqs'"
@@ -58,12 +59,16 @@ confirm_pkg_config
 echo "RUNNING: 'install_grokit'"
 install_grokit
 
+# Run Grokit base, 'gtBase' installation
+echo "RUNNING: 'install_R_base'"
+install_R_base
+
 # Run Statistics library installation
 echo "Running: 'install_statistics'"
 install_statistics
 
-# Run Grokit base, 'gtBase' installation
-echo "RUNNING: 'install_R_base'"
-install_R_base
+# Run gtLearning library installation
+echo "Running: 'install_gtLearning'"
+install_gtLearning
 
 echo "MESSAGE: Grokit Development Server Provisioned Successfully"

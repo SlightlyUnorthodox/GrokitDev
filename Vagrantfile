@@ -19,6 +19,7 @@ Vagrant.configure(2) do |config|
   # Set ssh forwarding off
   config.ssh.insert_key = false
   
+  
   # Allow internal symlinks
   #config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
 
@@ -35,6 +36,11 @@ Vagrant.configure(2) do |config|
     v.cpus = 2
   end
 
+  # Ensure that grokit is always running in 'offline' mode
+  config.vm.provision "shell", run: 'always' do |s|
+    s.inline = "export mode='offline'"
+  end
+  
   # Allow provisioning of bootstrap scripts
   config.vm.provision "shell" do |s|
     s.path = "bootstrap.sh"

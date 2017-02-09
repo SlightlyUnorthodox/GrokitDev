@@ -53,12 +53,12 @@ function install_lemon() {
     log "${FUNCNAME[0]}: Downloading LEMON Graph Library"
     
     # Download LEMON graph library version 1.2.3 and unzip
-    cd /vagrant/prereqs
+    cd /home/vagrant/prereqs
     wget -q "http://lemon.cs.elte.hu/pub/sources/lemon-1.2.3.tar.gz" -O "lemon.tar.gz"
     tar xvzf "lemon.tar.gz"
 
     # Step into un-tarred lemon dir
-    cd /vagrant/prereqs/lemon-1.2.3
+    cd /home/vagrant/prereqs/lemon-1.2.3
 
     log "${FUNCNAME[0]}: Running LEMON config and make process"
     
@@ -73,7 +73,7 @@ function install_lemon() {
     log "${FUNCNAME[0]}: LEMON successfully installed"
     
     # Return to vagrant directory
-    cd /vagrant
+    cd /home/vagrant/
 
 }
 
@@ -85,27 +85,27 @@ function install_antlr() {
     log "${FUNCNAME[0]}: Downloading ANTLR Version 3.4 from git archives"
     
     # Download and install ANTLR Parser Generator
-    mkdir -p /vagrant/prereqs/antlr
-    cd /vagrant/prereqs/antlr
+    mkdir -p /home/vagrant/prereqs/antlr
+    cd /home/vagrant/prereqs/antlr
     
     # Download ANTLR Parser Generator version 3.4
     wget -q "https://github.com/antlr/website-antlr3/raw/gh-pages/download/antlr-3.4-complete.jar"
 
     # Add ANTLR to CLASSPATH and run it
-    export CLASSPATH=/vagrant/prereqs/antlr/antlr-3.4-complete.jar:$CLASSPATH
+    export CLASSPATH=/home/vagrant/prereqs/antlr/antlr-3.4-complete.jar:$CLASSPATH
     
     # Add to .bashrc script
-    #echo "export CLASSPATH=/vagrant/prereqs/antlr/antlr-3.4-complete.jar:$CLASSPATH" >> ~/.bashrc
+    #echo "export CLASSPATH=/home/vagrant/prereqs/antlr/antlr-3.4-complete.jar:$CLASSPATH" >> /home/vagrant/.bashrc
 
     # Test antlr install
     #java org.antlr.Tool -version
 
     # Add antlr3 as command to usr and sudo path
-    #sh -c "echo 'java -jar /vagrant/prereqs/antlr/antlr-3.4-complete.jar' > /usr/local/bin/antlr3"
-    sh -c "echo 'java -cp /vagrant/prereqs/antlr/antlr-3.4-complete.jar org.antlr.Tool \$*' > /usr/local/bin/antlr3"
+    #sh -c "echo 'java -jar /home/vagrant/prereqs/antlr/antlr-3.4-complete.jar' > /usr/local/bin/antlr3"
+    sh -c "echo 'java -cp /home/vagrant/prereqs/antlr/antlr-3.4-complete.jar org.antlr.Tool \$*' > /usr/local/bin/antlr3"
     chmod a+x /usr/local/bin/antlr3
 
-    sh -c "echo 'java -cp /vagrant/prereqs/antlr/antlr-3.4-complete.jar org.antlr.Tool \$*' > /usr/sbin/antlr3"
+    sh -c "echo 'java -cp /home/vagrant/prereqs/antlr/antlr-3.4-complete.jar org.antlr.Tool \$*' > /usr/sbin/antlr3"
     chmod a+x /usr/sbin/antlr3
 
     log "${FUNCNAME[0]}: ANTLR3 successfully installed"
@@ -113,13 +113,13 @@ function install_antlr() {
     log "${FUNCNAME[0]}: Downloading ANTLR3 C Runtime from git arhives"
     
     # Confirm position
-    cd /vagrant/prereqs/antlr
+    cd /home/vagrant/prereqs/antlr
 
     # Download antlr C runtime
     svn checkout --force https://github.com/antlr/antlr3/trunk/runtime/C
 
     # Move into C runtime dir
-    cd /vagrant/prereqs/antlr/C
+    cd /home/vagrant/prereqs/antlr/C
 
     # Install C runtime
     autoreconf --install
@@ -139,7 +139,7 @@ function install_antlr() {
     log "${FUNCNAME[0]}: ANTLR3 C Runtime successfully installed"
     
     # Return to vagrant directory
-    cd /vagrant
+    cd /home/vagrant/
 
 }
 
@@ -150,19 +150,19 @@ function install_onig() {
 
     # Step into prereqs directory
 
-    cd /vagrant/prereqs
+    cd /home/vagrant/prereqs
 
     log "${FUNCNAME[0]}: Downloading onigurama repository"
 
     # Remove onig if exists
-    [ -e /vagrant/prereqs/onig ] && rm -r /vagrant/prereqs/onig
+    [ -e /home/vagrant/prereqs/onig ] && rm -r /home/vagrant/prereqs/onig
 
     # Download oniguruma regex library
     svn checkout https://github.com/LuaDist/onig/trunk
-    mv /vagrant/prereqs/trunk /vagrant/prereqs/onig
+    mv /home/vagrant/prereqs/trunk /home/vagrant/prereqs/onig
 
     # Step inside onig directory
-    cd /vagrant/prereqs/onig
+    cd /home/vagrant/prereqs/onig
 
     log "${FUNCNAME[0]}: Configuring and making Oniguruma"
 
@@ -175,7 +175,7 @@ function install_onig() {
     log "${FUNCNAME[0]}: Oniguruma installed successfully"
 
     # Return to vagrant directory
-    cd /vagrant
+    cd /home/vagrant/
 
 }
 
@@ -187,25 +187,25 @@ function install_astyle() {
     log "${FUNCNAME[0]}: Downloading Astyle from "
     
     # Download and install ANTLR Parser Generator
-    mkdir -p /vagrant/prereqs/astyle
-    cd /vagrant/prereqs/astyle
+    mkdir -p /home/vagrant/prereqs/astyle
+    cd /home/vagrant/prereqs/astyle
     
     # Download ANTLR Parser Generator version 3.4
     wget -q https://sourceforge.net/projects/astyle/files/astyle/astyle%202.06/astyle_2.06_linux.tar.gz/download -O astyle.tar.gz
     tar xvzf astyle.tar.gz
 
     # Make astyle for gcc
-    cd /vagrant/prereqs/astyle/astyle/build/gcc
+    cd /home/vagrant/prereqs/astyle/astyle/build/gcc
     make release shared static
 
     # Make astyle for clang
-    cd /vagrant/prereqs/astyle/astyle/build/clang
+    cd /home/vagrant/prereqs/astyle/astyle/build/clang
     make release shared static
 
     log "${FUNCNAME[0]}: Astyle successfully installed"
     
     # Go back to working directory
-    cd /vagrant
+    cd /home/vagrant/
 }   
 
 # Finish installation and configuration of websocketpp and pre-reqs
@@ -215,7 +215,7 @@ function install_websocketpp() {
 
     # Step into prereqs directory
 
-    cd /vagrant/prereqs
+    cd /home/vagrant/prereqs
 
     log "${FUNCNAME[0]}: Downloading websocketpp library"
 
@@ -224,10 +224,10 @@ function install_websocketpp() {
     unzip -o websocketpp.zip
 
     # Copying websocketpp to /usr/include
-    cp -r /vagrant/prereqs/websocketpp-experimental/websocketpp /usr/include/
+    cp -r /home/vagrant/prereqs/websocketpp-experimental/websocketpp /usr/include/
     
     # Return to vagrant home
-    cd /vagrant
+    cd /home/vagrant/
 
     log "${FUNCNAME[0]}: websocketpp successfully installed"
 
@@ -241,7 +241,7 @@ function confirm_pkg_config() {
     # Export pkg-config files to PATH
     
     # Make local pkgconfig directory
-    mkdir -p /vagrant/pkgconfig
+    mkdir -p /home/vagrant/pkgconfig
 
     # pkg-config for antlr3
     echo "prefix=/usr/local
@@ -253,7 +253,7 @@ function confirm_pkg_config() {
     Description: The C runtime for the Antlr parser generator
     Version: 3.4
     Cflags: -I\${includedir}
-    Libs: -L\${libdir} -lantlr3c" > /vagrant/pkgconfig/antlr3c.pc
+    Libs: -L\${libdir} -lantlr3c" > /home/vagrant/pkgconfig/antlr3c.pc
 
     # pkg-config for armadillo
     echo "prefix=/usr
@@ -265,7 +265,7 @@ function confirm_pkg_config() {
     Description: A C++ Matrix and Linear Algebra library.
     Version: 4.3.2
     Cflags: -I\${includedir}
-    Libs: -L\${libdir} -larmadillo" > /vagrant/pkgconfig/armadillo.pc
+    Libs: -L\${libdir} -larmadillo" > /home/vagrant/pkgconfig/armadillo.pc
 
     # pkg-config for onig
     echo "prefix=/usr
@@ -277,10 +277,10 @@ function confirm_pkg_config() {
     Description: A C regular expression library
     Version: 5.9.5
     Cflags: -I\${includedir}
-    Libs: -L\${libdir} -lonig" > /vagrant/pkgconfig/onig.pc
+    Libs: -L\${libdir} -lonig" > /home/vagrant/pkgconfig/onig.pc
 
     # Set pkg-config search path
-    export PKG_CONFIG_PATH=/vagrant/pkgconfig/
+    export PKG_CONFIG_PATH=/home/vagrant/pkgconfig/
 
     log "${FUNCNAME[0]}: pkg-config files successfully added"
     
@@ -292,31 +292,29 @@ function install_grokit() {
     log "Running ${FUNCNAME[0]}"
 
     # Go to grokit repo src code
-    cd /vagrant/grokit/src
+    cd /home/vagrant/grokit/src
 
     # Compile datapath
     ./compile.datapath.sh
 
     log "${FUNCNAME[0]}: Grokit datapath successfully setup"
     
-#     # Configure disk
-#     cd /vagrant/grokit/src/Tool_DataPath/executable
-#     touch /vagrant/grokit/disk
+    # Configure disk
+    cd /home/vagrant/grokit/src/Tool_DataPath/executable
+    touch /home/vagrant/grokit/disk
 
-#     sh -c "./dp -be QUAN << EOF
-# 0
-# 1
-# 1
-# EOF"
+    # Prevent vagrant stopping
+    sudo sh -c "./dp -e | true" 
 
     # Install grokit
+    cd /home/vagrant/grokit/src
     PREFIX=/usr make install
 
     # Install grokit 'base' library
-    grokit makelib /vagrant/grokit/Libs/base
+    grokit makelib /home/vagrant/grokit/Libs/base
 
     # Return to home
-    cd /vagrant  
+    cd /home/vagrant/  
 }
 
 # Install grokit statistic library
@@ -332,6 +330,19 @@ function install_statistics() {
 
 }
 
+# Install grokit gtLearning library
+function install_gtLearning() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    log "${FUNCNAME[0]}: Installing Grokit 'gtLearning' library"
+
+    R CMD INSTALL gtLearning/package/
+    grokit makelib gtLearning/package/inst/learning/
+
+    log "${FUNCNAME[0]}: 'gtLearning' library successfully installed"
+}
+
 # Install gtbase R files
 function install_R_base() {
 
@@ -345,9 +356,10 @@ function install_R_base() {
     # Go to gtbase 
     log "Running ${FUNCNAME[0]}"
 
-    # Install gtBase on grokit system
-    sudo sh -c "echo '{}' > /root/schema.json"
-    sudo R -e "Sys.setenv(mode = 'offline');install.packages('gtBase', repos = NULL, type = 'source')"
+    # Temp fix to Install gtBase on grokit system
+    sudo sh -c "echo '{}' > ~/schema.json"
+    export mode='offline'
+    R CMD INSTALL gtBase
 
     log "${FUNCNAME[0]}: gtBase successfully installed"
     
