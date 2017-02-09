@@ -339,8 +339,9 @@ function install_R_base() {
     log "Running ${FUNCNAME[0]}"
 
     # Install gtBase on grokit system
-    R CMD INSTALL /vagrant/gtBase
-    
+    sudo sh -c "echo '{}' > /root/schema.json"
+    sudo R -e "Sys.setenv(mode = 'offline');install.packages('gtBase', repos = NULL, type = 'source')"
+
     log "${FUNCNAME[0]}: gtBase successfully installed"
     
 
