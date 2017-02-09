@@ -129,6 +129,13 @@ function install_antlr() {
     make install
     make check
 
+    # Establish symlnks for anltlr3c.so
+    echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr-local.conf
+    
+    # Rebuild ld cache
+    rm -f /etc/ld.so.cache
+    ldconfig
+
     log "${FUNCNAME[0]}: ANTLR3 C Runtime successfully installed"
     
     # Return to vagrant directory
