@@ -358,7 +358,8 @@ function install_R_base() {
 
     # Temp fix to Install gtBase on grokit system
     sudo sh -c "echo '{}' > ~/schema.json"
-    export mode='offline'
+    sudo sh -c "echo '{}' > /home/vagrant/schema.json"
+    sudo sh -c "echo 'export mode=\"offline\"' > /etc/environment"
     R CMD INSTALL gtBase
 
     log "${FUNCNAME[0]}: gtBase successfully installed"

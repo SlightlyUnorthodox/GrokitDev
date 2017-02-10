@@ -27,7 +27,7 @@ yum install -y git svn
 sh -c "if cd grokit; then echo 'grokit already exists'; else git clone https://github.com/tera-insights/grokit.git; fi"
 sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone https://github.com/tera-insights/gtBase.git; fi"
 sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/statistics.git; fi"
-sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/gtLearning.git; fi"
+sh -c "if cd gtLearning; then echo 'gtLearning already exists'; else git clone https://github.com/tera-insights/gtLearning.git; fi"
 
 # Make grokit prereqs directory and step inside
 mkdir -p prereqs
