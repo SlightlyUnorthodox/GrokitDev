@@ -15,7 +15,7 @@ function install_prereqs() {
 
     # Mass installation of prerequisite tools and libraries
     dnf -y -v groupinstall "C Development Tools and Libraries"
-    dnf -y -v install bc wget clang git java \
+    dnf -y -v install bc wget clang java \
     php-cli php-pdo php-pecl-xdebug php-pear \
     jsoncpp jsoncpp-devel \
     sqlite sqlite-devel \
@@ -25,7 +25,6 @@ function install_prereqs() {
     R \
     armadillo-devel \
     emacs htop \
-    glibc.i686 \
     libstdc++.so.6
 
     #rpm -ivh astyle
