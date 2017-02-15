@@ -41,16 +41,24 @@ echo "RUNNING: 'install_lemon'"
 install_lemon
 
 # Run ANTLR installation
-echo "RUNNING: 'install_antlr"
+echo "RUNNING: 'install_antlr'"
 install_antlr
 
 # Run Astyle installation
-echo "RUNNING: 'install_astyle"
+echo "RUNNING: 'install_astyle'"
 install_astyle
 
 # Run Websocketpp installation
-echo "RUNNING: 'install_websocketpp"
+echo "RUNNING: 'install_websocketpp'"
 install_websocketpp
+
+# Run MCT installation
+echo "RUNNING: 'install_libmct'"
+install_libmct
+
+# Update ldconfig
+echo "RUNNING: 'update_ldconfig'"
+update_ldconfig
 
 echo "RUNNING: 'confirm_pkg_config'"
 confirm_pkg_config

@@ -37,7 +37,10 @@ function install_prereqs() {
     ncurses-libs.i686 \
     bison \
     flex \
-    glibc.devel.i686
+    glibc.devel.i686 \
+    bzr \
+    gperftools-libs.x86_64 \
+    gperftools-devel.x86_64
 
     # Modify php configuration to allow short_open_tag
     echo "short_open_tag = On" > /etc/php.d/30-short_open_tag.ini
@@ -128,13 +131,6 @@ function install_antlr() {
     make install
     make check
 
-    # Establish symlnks for anltlr3c.so
-    echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr-local.conf
-    
-    # Rebuild ld cache
-    rm -f /etc/ld.so.cache
-    ldconfig
-
     log "${FUNCNAME[0]}: ANTLR3 C Runtime successfully installed"
     
     # Return to vagrant directory
@@ -185,11 +181,10 @@ function install_astyle() {
 
     log "${FUNCNAME[0]}: Downloading Astyle from "
     
-    # Download and install ANTLR Parser Generator
     mkdir -p /home/vagrant/prereqs/astyle
     cd /home/vagrant/prereqs/astyle
     
-    # Download ANTLR Parser Generator version 3.4
+    # Download Astyle 2.06
     wget -q https://sourceforge.net/projects/astyle/files/astyle/astyle%202.06/astyle_2.06_linux.tar.gz/download -O astyle.tar.gz
     tar xvzf astyle.tar.gz
 
@@ -229,6 +224,50 @@ function install_websocketpp() {
     cd /home/vagrant/
 
     log "${FUNCNAME[0]}: websocketpp successfully installed"
+
+}
+
+# Install MCT from Launchpad
+function install_libmct() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    # Step into prereqs directory
+
+    cd /home/vagrant/prereqs
+
+    log "${FUNCNAME[0]}: Downloading MCT library"
+
+    # Get libmct 1.6 from launchpad branch
+    bzr branch lp:libmct/1.6
+    mv 1.6 libmct1.6
+
+    log "${FUNCNAME[0]}: Building MCT in /usr/local"
+
+    cd /home/vagrant/prereqs/libmct1.6
+    make install
+
+     # Return to vagrant home
+    cd /home/vagrant/
+
+    log "${FUNCNAME[0]}: MCT Built successfully"
+
+}
+
+# Update 
+function update_ldconfig() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    # Establish symlnks for anltlr3c.so
+    echo "/usr/local/lib
+    /usr/lib" > /etc/ld.so.conf.d/usr-local.conf
+    
+    # Rebuild ld cache
+    rm -f /etc/ld.so.cache
+    ldconfig
+
+    log "${FUNCNAME[0]}: ldconfig Updated"
 
 }
 
