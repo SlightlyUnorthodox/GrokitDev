@@ -355,6 +355,31 @@ function install_grokit() {
     cd /home/vagrant/  
 }
 
+# Install gtbase R files
+function install_R_base() {
+
+    # Install R-dependencies
+    Rscript -e "install.packages('rjson', repos='http://cran.us.r-project.org')"
+    Rscript -e "install.packages('RSQLite', repos = 'http://cran.us.r-project.org')"
+    
+    # Build RJson
+    #Rscript build_json.R
+
+    # Go to gtbase 
+    log "Running ${FUNCNAME[0]}"
+
+    # Temp fix to Install gtBase on grokit system
+    sudo sh -c "echo '{}' > ~/schema.json"
+    sudo sh -c "echo '{}' > /home/vagrant/schema.json"
+    sudo sh -c "echo 'export mode=\"offline\"' > /etc/environment"
+    export mode='offline'
+
+    R CMD INSTALL gtBase
+
+    log "${FUNCNAME[0]}: gtBase successfully installed"
+    
+}
+
 # Install grokit statistic library
 function install_statistics() {
 
@@ -379,28 +404,5 @@ function install_gtLearning() {
     grokit makelib gtLearning/package/inst/learning/
 
     log "${FUNCNAME[0]}: 'gtLearning' library successfully installed"
-}
-
-# Install gtbase R files
-function install_R_base() {
-
-    # Install R-dependencies
-    Rscript -e "install.packages('rjson', repos='http://cran.us.r-project.org')"
-    Rscript -e "install.packages('RSQLite', repos = 'http://cran.us.r-project.org')"
-    
-    # Build RJson
-    #Rscript build_json.R
-
-    # Go to gtbase 
-    log "Running ${FUNCNAME[0]}"
-
-    # Temp fix to Install gtBase on grokit system
-    sudo sh -c "echo '{}' > ~/schema.json"
-    sudo sh -c "echo '{}' > /home/vagrant/schema.json"
-    sudo sh -c "echo 'export mode=\"offline\"' > /etc/environment"
-    R CMD INSTALL gtBase
-
-    log "${FUNCNAME[0]}: gtBase successfully installed"
-    
 
 }
