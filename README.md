@@ -2,7 +2,7 @@
 
 This repository contains a comprehensive installation procedure for installing and configuring the Grokit database engine.
 
-Be warned that the number of required libraries, and the fact that this process is designed to work on a virtual machine, mean this process will likely take a good amount of time to run.
+**WARNING:** Due to the number of dependencies involved, this process can take a considerable chunk of time.
 
 ## GrokitDev Box Overview
 
@@ -24,7 +24,9 @@ Download and install Vagrant [here](https://www.vagrantup.com/downloads.html)
 
 ### 2.5 Install the hosts-updater Vagrant plugin
 
-```vagrant plugin install vagrant-hostsupdater```
+```{bash}
+vagrant plugin install vagrant-hostsupdater
+```
 
 You can read more about this at the [vagrant-hostupdater git page](https://github.com/cogitatio/vagrant-hostsupdater)
 
@@ -34,22 +36,36 @@ Use git to download the 'GrokitDev' Repository: (preferred)
  
 Use ```git clone https://github.com/SlightlyUnorthodox/GrokitDev.git``` to create a local copy of the repository
 
+### 3.5 Modify Vagrantfile to Optimize for Your Machine
+
+The Vagrantfile is currently configured to run with the following hardware settings, but you will likely want to change the settings depending on your hardware specifications and other system requirements.
+
+```{bash}
+# Specify CPU usage cap for vm
+v.customize ["modifyvm", :id, "--cpuexecutioncap", "70"]
+
+# Specify RAM allocated
+v.memory = 8192
+
+# Specify CPUs allocated
+v.cpus = 2
+```
+
 ### 4. Run Vagrant setup
 
 Again, this process will likely take a **non-trivial amount of time** when run for the first time, but will be significantly faster if ever needed again. Feel free to grab a cup of coffee (and maybe take a long lunch) while this process runs.
 
 What your computer is doing here:
  * Creating a virtual machine in your computer
- * Downloading and installing Ubuntu (trusty 64-bit)
- * Installing Git, Python, NLTK, and Grokit
- * Starting the Grokit server and forwarding that to the host machine at '127.0.0.1:8000'
+ * Downloading and installing CentOS 7
+ * Installing the long list of dependencies specificied in 'dependencies.md'
 
-#### Mac & Linux
+#### Mac & Linux Systems
 
 Open the terminal using 
 
 ```{bash}
-  cd ~/desktop/GrokitDev
+  cd /path/to/GrokitDev
   vagrant plugin install vagrant-hostsupdater
   vagrant up
 ```
@@ -58,7 +74,7 @@ Open the terminal using
 
 #### Windows
 ```{cmd}
-  cd ~\Desktop\GrokitDev
+  cd \path\to\GrokitDev
   vagrant plugin install vagrant-hostsupdater
   vagrant up
 ```
@@ -73,7 +89,7 @@ The Grokit server can be accessed from the [localhost](http://localhost:8000)
 
 #### Mac & Linux
 ```{bash}
-  cd ~/desktop/GrokitDev
+  cd /path/to/GrokitDev
   vagrant ssh
 ```
 
