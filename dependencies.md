@@ -32,7 +32,10 @@ The following are highly version specific (specifically websocketpp) and are rec
 * **Websocketpp**
   * Version: **3.0.X** (branch called 'experimental')
   * Source: https://github.com/zaphoyd/websocketpp/tree/experimental
-
+* **MCT**
+  * Version: **1.6.2**
+  * Source: https://code.launchpad.net/libmct
+  
 ## Grokit Dependencies
 
 The following repositories are referenced in the bootstrap scripts.
@@ -133,6 +136,9 @@ glibc-2.17-157.el7_3.1.x86_64
 glibc-common-2.17-157.el7_3.1.x86_64
 glibc-devel-2.17-157.el7_3.1.x86_64
 glibc-2.17-157.el7_3.1.i686
+bzr-2.5.1-14.el7.x86_64
+gperftools-libs-2.4-8.el7.x86_64
+gperftools-devel-2.4-8.el7.x86_64
 ```
 
 For easy installation of minor dependencies the following script has been attached.
@@ -149,7 +155,10 @@ For easy installation of minor dependencies the following script has been attach
     ncurses-libs.i686 \
     bison \
     flex \
-    glibc.devel.i686   
+    glibc.devel.i686 \
+    bzr \
+    gperftools-libs.x86_64 \
+    gperftools-devel.x86_64
 
 dnf -y -v groupinstall "C Development Tools and Libraries"
     dnf -y -v install bc wget clang java \
