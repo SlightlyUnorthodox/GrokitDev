@@ -191,11 +191,13 @@ function install_astyle() {
     # Make astyle for gcc
     cd /home/vagrant/prereqs/astyle/astyle/build/gcc
     make release shared static
+    make install 
 
     # Make astyle for clang
     cd /home/vagrant/prereqs/astyle/astyle/build/clang
     make release shared static
-
+    make install
+    
     log "${FUNCNAME[0]}: Astyle successfully installed"
     
     # Go back to working directory
@@ -237,6 +239,10 @@ function install_libmct() {
     cd /home/vagrant/prereqs
 
     log "${FUNCNAME[0]}: Downloading MCT library"
+
+    # Remove mct if exists
+    [ -e /home/vagrant/prereqs/libmct1.6 ] && rm -r /home/vagrant/prereqs/libmct1.6
+    [ -e /home/vagrant/prereqs/1.6 ] && rm -r /home/vagrant/prereqs/1.6
 
     # Get libmct 1.6 from launchpad branch
     bzr branch lp:libmct/1.6
@@ -342,7 +348,11 @@ function install_grokit() {
     touch /home/vagrant/grokit/disk
 
     # Prevent vagrant stopping
-    sudo sh -c "./dp -e | true" 
+    echo "0
+1
+1" > QUAN
+    
+    sh -c "./dp -be QUAN | true" 
 
     # Install grokit
     cd /home/vagrant/grokit/src
@@ -351,6 +361,19 @@ function install_grokit() {
     # Install grokit 'base' library
     grokit makelib /home/vagrant/grokit/Libs/base
 
+    # Temp fix to Install gtBase on grokit system
+    sudo sh -c "echo '{}' > ~/schema.json"
+    sudo sh -c "echo '{}' > /home/vagrant/schema.json"
+    sudo sh -c "echo 'export mode=\"offline\"' > /etc/environment"
+    export mode='offline'
+
+    # Mkdir Q1
+    mkdir /Q1
+
+    # Set necessary file permissions
+    chmod 777 /home/vagrant/grokit/src/Tool_DataPath/executable/ -R
+    chmod 777 /home/vagrant/schema.json
+    chmod 777 /Q1 -R
     # Return to home
     cd /home/vagrant/  
 }
@@ -362,17 +385,16 @@ function install_R_base() {
     Rscript -e "install.packages('rjson', repos='http://cran.us.r-project.org')"
     Rscript -e "install.packages('RSQLite', repos = 'http://cran.us.r-project.org')"
     
+    # Checkout offline branch
+    cd /home/vagrant/gtBase
+    git checkout add-offline-support
+    cd /home/vagrant
+
     # Build RJson
     #Rscript build_json.R
 
     # Go to gtbase 
     log "Running ${FUNCNAME[0]}"
-
-    # Temp fix to Install gtBase on grokit system
-    sudo sh -c "echo '{}' > ~/schema.json"
-    sudo sh -c "echo '{}' > /home/vagrant/schema.json"
-    sudo sh -c "echo 'export mode=\"offline\"' > /etc/environment"
-    export mode='offline'
 
     R CMD INSTALL gtBase
 
@@ -405,4 +427,17 @@ function install_gtLearning() {
 
     log "${FUNCNAME[0]}: 'gtLearning' library successfully installed"
 
+}
+
+# Run Grokit Build tests
+function run_build_tests() {
+    
+    log "Running ${FUNCNAME[0]}"
+
+    log "${FUNCNAME[0]}: Running Grokit build tests"
+
+    # Test GroupBy
+    Rscript GroupByTest.R | true
+
+    log "${FUNCNAME[0]}: Finished runnig build tests"
 }

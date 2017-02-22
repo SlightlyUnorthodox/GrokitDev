@@ -25,7 +25,7 @@ yum install -y git svn
 # Install
 # Clone copies of the Grokit backend, R base, and Statistics libraries
 sh -c "if cd grokit; then echo 'grokit already exists'; else git clone https://github.com/tera-insights/grokit.git; fi"
-sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone https://github.com/tera-insights/gtBase.git; fi"
+sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone -b add-offline-support https://github.com/tera-insights/gtBase.git; fi"
 sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/statistics.git; fi"
 sh -c "if cd gtLearning; then echo 'gtLearning already exists'; else git clone https://github.com/tera-insights/gtLearning.git; fi"
 
@@ -78,5 +78,9 @@ install_statistics
 # Run gtLearning library installation
 echo "Running: 'install_gtLearning'"
 install_gtLearning
+
+# Run Grokit build tests
+echo "Running: 'run_build_tests'"
+run_build_tests
 
 echo "MESSAGE: Grokit Development Server Provisioned Successfully"
