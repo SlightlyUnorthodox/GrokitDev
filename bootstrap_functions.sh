@@ -368,7 +368,7 @@ function install_grokit() {
     export mode='offline'
 
     # Mkdir Q1
-    mkdir /Q1
+    mkdir /Q1 | true
 
     # Set necessary file permissions
     chmod 777 /home/vagrant/grokit/src/Tool_DataPath/executable/ -R
@@ -436,8 +436,11 @@ function run_build_tests() {
 
     log "${FUNCNAME[0]}: Running Grokit build tests"
 
+    # Go to test directory
+    cd /vagrant/test
+
     # Test GroupBy
-    Rscript GroupByTest.R | true
+    printf '0\n1\n1' | mode=offline Rscript GroupByTest.R
 
     log "${FUNCNAME[0]}: Finished runnig build tests"
 }
