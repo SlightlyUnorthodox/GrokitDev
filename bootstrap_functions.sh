@@ -437,8 +437,7 @@ function install_gtJson() {
 
     log "${FUNCNAME[0]}: Installing Grokit 'gtJson' library"
 
-    R CMD INSTALL gtJson/package/
-    grokit makelib gtJson/package/inst/Json/
+    R CMD INSTALL gtJson
 
     log "${FUNCNAME[0]}: 'gtJson' library successfully installed"
 
@@ -452,8 +451,7 @@ function install_gtStats() {
 
     log "${FUNCNAME[0]}: Installing Grokit 'gtStats' library"
 
-    R CMD INSTALL gtStats/package/
-    grokit makelib gtStats/package/inst/Stats/
+    R CMD INSTALL gtStats
 
     log "${FUNCNAME[0]}: 'gtStats' library successfully installed"
 
@@ -467,8 +465,7 @@ function install_gtSampling() {
 
     log "${FUNCNAME[0]}: Installing Grokit 'gtSampling' library"
 
-    R CMD INSTALL gtSampling/package/
-    grokit makelib gtSampling/package/inst/Sampling/
+    R CMD INSTALL gtSampling
 
     log "${FUNCNAME[0]}: 'gtSampling' library successfully installed"
 
@@ -481,8 +478,7 @@ function install_gtTranslator() {
 
     log "${FUNCNAME[0]}: Installing Grokit 'gtTranslator' library"
 
-    R CMD INSTALL gtTranslator/package/
-    grokit makelib gtTranslator/package/inst/Translator/
+    R CMD INSTALL gtTranslator
 
     log "${FUNCNAME[0]}: 'gtTranslator' library successfully installed"
 
@@ -495,11 +491,11 @@ function run_build_tests() {
 
     log "${FUNCNAME[0]}: Running Grokit build tests"
 
-    # Go to test directory
-    cd /vagrant/test
+    # Copy file to working directory
+    cp /vagrant/GrokitBuildTest.R ~/GrokitBuildTest.R
 
     # Test GroupBy
-    printf '0\n1\n1' | mode=offline Rscript GroupByTest.R
+    printf '0\n1\n1' | mode=offline Rscript GrokitBuildTest.R
 
     log "${FUNCNAME[0]}: Finished runnig build tests"
 }
