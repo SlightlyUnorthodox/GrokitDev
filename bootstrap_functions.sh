@@ -385,10 +385,10 @@ function install_R_base() {
     Rscript -e "install.packages('rjson', repos='http://cran.us.r-project.org')"
     Rscript -e "install.packages('RSQLite', repos = 'http://cran.us.r-project.org')"
     
-    # Checkout offline branch
-    cd /home/vagrant/gtBase
-    git checkout add-offline-support
-    cd /home/vagrant
+    # Checkout offline branch ## WARNING: Offline branch breaks 'gtSampling'
+    # cd /home/vagrant/gtBase
+    # git checkout add-offline-support
+    # cd /home/vagrant
 
     # Build RJson
     #Rscript build_json.R
@@ -426,6 +426,65 @@ function install_gtLearning() {
     grokit makelib gtLearning/package/inst/learning/
 
     log "${FUNCNAME[0]}: 'gtLearning' library successfully installed"
+
+}
+
+
+# Install grokit gtJson library
+function install_gtJson() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    log "${FUNCNAME[0]}: Installing Grokit 'gtJson' library"
+
+    R CMD INSTALL gtJson/package/
+    grokit makelib gtJson/package/inst/Json/
+
+    log "${FUNCNAME[0]}: 'gtJson' library successfully installed"
+
+}
+
+
+# Install grokit gtSampling library
+function install_gtStats() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    log "${FUNCNAME[0]}: Installing Grokit 'gtStats' library"
+
+    R CMD INSTALL gtStats/package/
+    grokit makelib gtStats/package/inst/Stats/
+
+    log "${FUNCNAME[0]}: 'gtStats' library successfully installed"
+
+}
+
+
+# Install grokit gtSampling library
+function install_gtSampling() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    log "${FUNCNAME[0]}: Installing Grokit 'gtSampling' library"
+
+    R CMD INSTALL gtSampling/package/
+    grokit makelib gtSampling/package/inst/Sampling/
+
+    log "${FUNCNAME[0]}: 'gtSampling' library successfully installed"
+
+}
+
+# Install grokit gtTranslator library
+function install_gtTranslator() {
+
+    log "Running ${FUNCNAME[0]}"
+
+    log "${FUNCNAME[0]}: Installing Grokit 'gtTranslator' library"
+
+    R CMD INSTALL gtTranslator/package/
+    grokit makelib gtTranslator/package/inst/Translator/
+
+    log "${FUNCNAME[0]}: 'gtTranslator' library successfully installed"
 
 }
 
