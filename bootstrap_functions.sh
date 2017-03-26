@@ -422,8 +422,8 @@ function install_gtLearning() {
 
     log "${FUNCNAME[0]}: Installing Grokit 'gtLearning' library"
 
-    R CMD INSTALL gtLearning/package/
     grokit makelib gtLearning/package/inst/learning/
+    R CMD INSTALL gtLearning/package/
 
     log "${FUNCNAME[0]}: 'gtLearning' library successfully installed"
 
@@ -451,6 +451,7 @@ function install_gtStats() {
 
     log "${FUNCNAME[0]}: Installing Grokit 'gtStats' library"
 
+    grokit makelib statistics/
     R CMD INSTALL gtStats
 
     log "${FUNCNAME[0]}: 'gtStats' library successfully installed"
@@ -478,6 +479,7 @@ function install_gtTranslator() {
 
     log "${FUNCNAME[0]}: Installing Grokit 'gtTranslator' library"
 
+    grokit makelib translator/
     R CMD INSTALL gtTranslator
 
     log "${FUNCNAME[0]}: 'gtTranslator' library successfully installed"
