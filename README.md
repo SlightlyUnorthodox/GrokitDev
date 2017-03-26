@@ -22,7 +22,7 @@ Download and install VirtualBox [here](https://www.virtualbox.org/wiki/Downloads
 
 Download and install Vagrant [here](https://www.vagrantup.com/downloads.html)
 
-### 2.5 Install the hosts-updater Vagrant plugin
+#### 2.5 Install the hosts-updater Vagrant plugin
 
 ```{bash}
 vagrant plugin install vagrant-hostsupdater
@@ -36,7 +36,7 @@ Use git to download the 'GrokitDev' Repository: (preferred)
  
 Use ```git clone https://github.com/SlightlyUnorthodox/GrokitDev.git``` to create a local copy of the repository
 
-### 3.5 Modify Vagrantfile to Optimize for Your Machine
+#### 3.5 Modify Vagrantfile to Optimize for Your Machine
 
 The Vagrantfile is currently configured to run with the following hardware settings, but you will likely want to change the settings depending on your hardware specifications and other system requirements.
 
@@ -69,17 +69,12 @@ Open the terminal using
   vagrant plugin install vagrant-hostsupdater
   vagrant up
 ```
-
-[More info on Mac termainal](http://blog.teamtreehouse.com/introduction-to-the-mac-os-x-command-line)
-
 #### Windows
 ```{cmd}
   cd \path\to\GrokitDev
   vagrant plugin install vagrant-hostsupdater
   vagrant up
 ```
-
-[More info on Windows command prompt](http://www.bleepingcomputer.com/tutorials/windows-command-prompt-introduction/)
 
 ## Access Grokit Server
 
@@ -92,9 +87,6 @@ The Grokit server can be accessed from the [localhost](http://localhost:8000)
   cd /path/to/GrokitDev
   vagrant ssh
 ```
-
-[More info on Mac termainal](http://blog.teamtreehouse.com/introduction-to-the-mac-os-x-command-line)
-
 #### Windows
 
 On Windows, you'll likely need to use Putty to access your vagrant box.
@@ -109,7 +101,3 @@ On Windows, you'll likely need to use Putty to access your vagrant box.
 ```{bash}
   vagrant reload --provision
 ```
-
-## More Info
-
-If you're interested in learning more ways to use Vagrant, please read the tutorials [here](https://www.vagrantup.com/docs/getting-started/)
