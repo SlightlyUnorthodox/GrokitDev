@@ -25,7 +25,7 @@ yum install -y git svn
 # Install
 # Clone copies of the Grokit backend, R base, and Statistics libraries
 sh -c "if cd grokit; then echo 'grokit already exists'; else git clone https://github.com/tera-insights/grokit.git; fi"
-sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone -b add-offline-support https://github.com/tera-insights/gtBase.git; fi"
+sh -c "if cd gtBase; then echo 'gtBase already exists'; else git clone https://github.com/tera-insights/gtBase.git; fi"
 sh -c "if cd statistics; then echo 'statistics already exists'; else git clone https://github.com/tera-insights/statistics.git; fi"
 sh -c "if cd gtStats; then echo 'gtStats already exists'; else git clone https://github.com/tera-insights/gtStats.git; fi"
 sh -c "if cd gtSampling; then echo 'gtSampling already exists'; else git clone https://github.com/tera-insights/gtSampling.git; fi"
@@ -33,6 +33,7 @@ sh -c "if cd gtLearning; then echo 'gtLearning already exists'; else git clone h
 sh -c "if cd gtJson; then echo 'gtJson already exists'; else git clone https://github.com/tera-insights/gtJson.git; fi"
 sh -c "if cd translator; then echo 'translator already exists'; else git clone https://github.com/tera-insights/translator.git; fi"
 sh -c "if cd gtTranslator; then echo 'gtTranslator already exists'; else git clone https://github.com/tera-insights/gtTranslator.git; fi"
+sh -c "if cd gtTest; then echo 'gtTest already exists'; else git clone https://github.com/SlightlyUnorthodox/gtTest.git; fi"
 
 # Make grokit prereqs directory and step inside
 mkdir -p prereqs

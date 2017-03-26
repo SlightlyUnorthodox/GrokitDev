@@ -38,3 +38,5 @@ if (isTRUE(all.equal(grokit.results, women, check.attributes = FALSE))){
 } else {
 	print("Test: GroupByTest.R FAILED")
 }
+
+file.remove("women.csv")

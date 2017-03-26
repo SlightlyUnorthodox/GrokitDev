@@ -384,7 +384,7 @@ function install_R_base() {
     # Install R-dependencies
     Rscript -e "install.packages('rjson', repos='http://cran.us.r-project.org')"
     Rscript -e "install.packages('RSQLite', repos = 'http://cran.us.r-project.org')"
-    
+    Rscript -e "install.packages('RUnit', repos = 'http://cran.us.r-project.org')"
     # Checkout offline branch ## WARNING: Offline branch breaks 'gtSampling'
     # cd /home/vagrant/gtBase
     # git checkout add-offline-support
