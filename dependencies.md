@@ -43,7 +43,13 @@ The following repositories are referenced in the bootstrap scripts.
 * **Grokit:** https://github.com/tera-insights/grokit.git
 * **gtBase:** https://github.com/tera-insights/gtBase.git
 * **Statistics:** https://github.com/tera-insights/statistics.git
+* **gtStats:** https://github.com/tera-insights/gtStats.git
+* **gtSampling:** https://github.com/tera-insights/gtSampling.git
 * **gtLearning:** https://github.com/tera-insights/gtLearning.git
+* **gtJson:** https://github.com/tera-insights/gtJson.git
+* **Translator:** https://github.com/tera-insights/translator.git
+* **gtTranslator:** https://github.com/tera-insights/gtTranslator.git
+* **gtTest:** https://github.com/SlightlyUnorthodox/gtTest.git
 
 ## Minor Dependencies
 
