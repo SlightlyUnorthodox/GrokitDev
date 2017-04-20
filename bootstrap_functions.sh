@@ -494,7 +494,7 @@ function run_build_tests() {
     log "${FUNCNAME[0]}: Running Grokit build tests"
 
     # Copy file to working directory
-    cp /vagrant/GrokitBuildTest.R ~/GrokitBuildTest.R
+    cp /vagrant/GrokitBuildTest.R GrokitBuildTest.R
 
     # Test GroupBy
     printf '0\n1\n1' | mode=offline Rscript GrokitBuildTest.R
